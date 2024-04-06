@@ -20,7 +20,7 @@ export const Navegation = () => {
                     <Dropdown>
                         <NavbarItem>
                             <DropdownTrigger>
-                                alumno
+                                Alumno
                             </DropdownTrigger>
                         </NavbarItem>
                         <DropdownMenu
@@ -32,7 +32,7 @@ export const Navegation = () => {
                                     className={({ isActive }) => isActive ? 'font-bold' : 'text-black font-light'}
                                     to='/historial'
                                 >
-                                    Mi historial
+                                    Mi Historial
                                 </NavLink>
                             </DropdownItem>
                         </DropdownMenu>
@@ -43,7 +43,7 @@ export const Navegation = () => {
                                 <NavLink
                                     className={({ isActive }) => isActive ? 'font-bold' : 'text-white font-light'}
                                 >
-                                    getion
+                                    Gestion
                                 </NavLink>
                             </DropdownTrigger>
                         </NavbarItem>
@@ -63,7 +63,7 @@ export const Navegation = () => {
                     </Dropdown>
                     <NavLink className={({ isActive }) => isActive ? 'font-bold' : 'text-white font-light'}
                         to='/password'>
-                        Cambiar contraseña
+                        Cambiar Contraseña
                     </NavLink>
                 </NavbarContent>
                 <NavbarContent justify="end">
