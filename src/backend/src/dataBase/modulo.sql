@@ -1,9 +1,8 @@
-CREATE DATABASE modulo;  
+CREATE DATABASE proyect;  
     
     
  CREATE TABLE users(
         idUser serial PRIMARY KEY not null,
-        expediente VARCHAR(45) UNIQUE NOT NULL,
         cedula VARCHAR(45) UNIQUE NOT NULL,
         nombre VARCHAR(500) NOT NULL,
         segundoNombre VARCHAR(500) NOT NULL,
@@ -13,9 +12,9 @@ CREATE DATABASE modulo;
         telefono VARCHAR(11) NOT NULL,
         email VARCHAR(700) NOT NULL,
         lugarDeNacimiento VARCHAR(500) NOT NULL,
-        añoDeGraduacion VARCHAR(500) NOT NULL,
+        añoDeGraduacion DATE NOT NULL,
         plantelDeProcedencia VARCHAR(500) NOT NULL,
-        genderiD INT NOT NULL,
+        genderiD INT NOT NULL
     );
 
     CREATE TABLE genders(
@@ -25,8 +24,9 @@ CREATE DATABASE modulo;
 
     CREATE TABLE usuarios (
         idusuario SERIAL PRIMARY KEY not null,
-        usuario VARCHAR(300) NOT NULL,
+        usuario VARCHAR(300) UNIQUE NOT NULL,
         password VARCHAR(500) NOT NULL,
+        tipoDeUsuario VARCHAR(8) NOT NULL,
         userId int not null,
         genderid int not null
     );
@@ -46,7 +46,7 @@ CREATE DATABASE modulo;
         idMateria SERIAL PRIMARY KEY not null,
         codMateria VARCHAR(7)  NOT NULL,
         materia VARCHAR(100) NOT NULL,
-        cedito VARCHAR(2) NOT NULL,
+        cedito VARCHAR(2) NOT NULL
     );
 
 
@@ -59,21 +59,21 @@ CREATE DATABASE modulo;
 
     CREATE TABLE secciones (
         idSeccion SERIAL PRIMARY KEY NOT NULL,
-        seccion VARCHAR(1) NOT NULL,
+        seccion VARCHAR(1) NOT NULL
     );
 
     CREATE TABLE evaluaciones (
         idEvaluacion SERIAL PRIMARY KEY not null,
-        titulo VARCHAR(100) NOT NULL
-        porcentaje VARCHAR(100) NOT NULL
-        estatus VARCHAR(100) NOT NULL
-        notaMinima VARCHAR(100) NOT NULL
-        notaMaxima VARCHAR(100) NOT NULL
-        fechaDeInicio DATE NOT NULL
+        titulo VARCHAR(100) NOT NULL,
+        porcentaje VARCHAR(100) NOT NULL,
+        estatus VARCHAR(100) NOT NULL,
+        notaMinima VARCHAR(100) NOT NULL,
+        notaMaxima VARCHAR(100) NOT NULL,
+        fechaDeInicio DATE NOT NULL,
         fechaFinal DATE NOT NULL
     )
 
-    INSERT INTO gender( gender)
+    INSERT INTO genders( gender)
         VALUES ( 'Masculino'),( 'Femenino');
 
 

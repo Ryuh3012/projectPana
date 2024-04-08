@@ -5,7 +5,7 @@ const pool = new Pool({
     host: "localhost",
     user: "postgres",
     password: "0000",
-    database: "modulo",
+    database: "proyect",
     port: "5432",
 });
 
@@ -13,19 +13,16 @@ export const createUser = async (req, res) => {
 
     try {
         pool.connect()
-        const {cedula, nombre, apellido, telefono, email, gender,tipodecontrato,  fechainiciada } = req.body?.data;
+        const {cedula,nombre, segundoNombre, apellido, segundoApellido, direccion, telefono, email, lugarDeNacimiento, añoDeGraduacion, plantelDeProcedencia, gender, password, tipoDeusuario } = req.body?.data;
+        console.log(password)
         const genderId = gender === 'masculino' ? 1 : 2
         
-        const userId = await pool.query(
-            "INSERT INTO users(cedula, nombre, apellido, telefono, email,  genderid ) VALUES ($1, $2, $3,$4,$5,$6) RETURNING iduser;", 
-            [cedula, nombre, apellido, telefono, email, genderId],
-            );
-            // const iduser = userId.rows[0]
-        const respon =  await pool.query( 
-            "INSERT INTO contracts(tipodecontrato, fechainiciada, user_idusers, user_gender) VALUES ($1, $2,$3,$4);", 
-            [tipodecontrato, fechainiciada, userId.rowCount, genderId]
+        const userid = await pool.query(
+        "INSERT INTO users(cedula,nombre, segundoNombre, apellido, segundoApellido, direccion,telefono,email, lugarDeNacimiento, añoDeGraduacion, plantelDeProcedencia, genderiD ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING iduser;", 
+        [cedula,nombre, segundoNombre, apellido, segundoApellido, direccion, telefono, email, lugarDeNacimiento, añoDeGraduacion, plantelDeProcedencia, genderId],
         );
-
+        
+        const respon = await pool.query('INSERT INTO usuarios( usuario, password, tipodeusuario,userid, genderid) values($1,$2,$3,$4,$5 )',[cedula, password, tipoDeusuario ,userid.rows[0].iduser, genderId])
         console.log(respon);
         return res.status(200).json({
             message: "usuario agregado exitosamente",
