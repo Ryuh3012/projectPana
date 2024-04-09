@@ -47,8 +47,6 @@ export const Password = () => {
 
                                                 defaultValue={''}
                                             >
-
-
                                             </select>
                                         </div>
                                         <div className='flex flex-col w-full gap-2'>

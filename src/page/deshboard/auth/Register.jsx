@@ -53,7 +53,6 @@ export const Register = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: async (value, { resetForm }) => {
-      console.log(value)
       const { id, name, middleName, lastName, middleLastName, address, phone, email, PlaceofBirth, yearGraduation, FromOrigin, password, gender, UserType } = value
       await axios.post('http://localhost:3001/users', {
         data: {
