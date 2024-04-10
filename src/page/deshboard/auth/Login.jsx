@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import ico from "../../../assets/LOGO-DEL-IUJO-removebg-preview.png";
 import axios from 'axios';
 import { useFormik } from 'formik';
+import Cookies from 'universal-cookie';
 
 const initialValues = { usuario: '', password: '' }
 export const Login = () => {
@@ -22,13 +23,15 @@ export const Login = () => {
     initialValues,
     onSubmit: async ({ usuario, password }, { resetForm }) => {
       try {
-        console.log(usuario)
+        
         const url = `http://localhost:3001/clients`
         const { data } = await axios.get(url)
+        const cookis = new Cookies()
         console.log(data)
         if (data) {
           const verifyDuplicate = data.res.filter((e) => e.usuario == usuario)
           if (verifyDuplicate.length > 0 && verifyDuplicate[0]?.password == password) {
+            cookis.set('users',JSON.stringify(data.res), { path: '/'})
             return navegation('/index')
           }
           else {
@@ -56,7 +59,7 @@ export const Login = () => {
         <img src={ico} className='w-[150px] justify-center' />
       </div>
 
-      <form className="flex gap-4 my-5 flex-col">
+      <form  onSubmit={formik.handleSubmit}  className="flex gap-4 my-5 flex-col">
       {formik.touched.usuario && formik.errors.usuario ? <p className="bg-red-100 border border-red-400 text-red-700 px-1 rounded relative py-1"  >{formik.errors.usuario}</p> : null}
         {errorInternal && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errorInternal}</p>)}
         <div className="flex flex-col w-full gap-2">

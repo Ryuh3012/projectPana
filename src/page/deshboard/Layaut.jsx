@@ -10,7 +10,7 @@ export const Layaut = ({children}) => {
         <div className="bg-[#d9dbe0] ">
             <Navbar className='bg-[#055387] text-white'>
                 <NavbarBrand>
-                    <img src={ico} className='h-[50px] bg-white rounded-[12%] mx-2' />
+                    <img src={ico} className='h-[50px] ' />
                     <p className="font-bold text-inherit font-sans">Sigea</p>
                 </NavbarBrand>
                 <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -35,6 +35,26 @@ export const Layaut = ({children}) => {
                         </DropdownMenu>
                     </Dropdown>
                     <Dropdown>
+                    <Dropdown>
+                        <NavbarItem>
+                            <DropdownTrigger>
+                                Calificaciones 
+                            </DropdownTrigger>
+                        </NavbarItem>
+                        <DropdownMenu
+                            aria-label="ACME features"
+                            className={({ isActive }) => isActive ? 'font-bold' : 'text-black font-light'}
+                        >
+                            <DropdownItem>
+                                <NavLink
+                                    className={({ isActive }) => isActive ? 'font-bold' : 'text-black font-light'}
+                                    to='/evaluaciones'
+                                >
+                                    Evaluaciones
+                                </NavLink>
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                         <NavbarItem>
                             <DropdownTrigger>
                                 <NavLink

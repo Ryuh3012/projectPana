@@ -1,6 +1,8 @@
 import React from 'react'
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Pagination, Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import { Layaut } from '../Layaut';
+import Cookies from 'universal-cookie';
+import axios from 'axios';
 
 
 const columns = [
@@ -64,6 +66,24 @@ const columns2 = [
 ];
 const users = []
 export const Historial = () => {
+
+    const cookis = new Cookies()
+    const user = cookis.get('users').filter(e => e)
+    const dataUser = async () => {
+        const url = 'http://localhost:3001/users'
+        const { data } = await axios.get(url)
+
+        if (data) {
+            const verificate = data.res.filter((e) => e.cedula == user[0].usuario)
+            const dataUser = verificate.map((e) => e)
+            const { cedula, nombre, segundonombre, apellido, segundoapellido, direccion, telefono, email, lugardenacimiento, añodegraduacion, planteldeprocedencia } = dataUser[0]
+            console.log(cedula)
+
+            return users.push(cedula, nombre, segundonombre, apellido, segundoapellido, direccion, telefono, email, lugardenacimiento, añodegraduacion, planteldeprocedencia)
+        }
+    }
+    dataUser()
+    console.log(users)
     return (
         <Layaut>
             <div className='bg-[#d9dbe0]'>
@@ -78,8 +98,8 @@ export const Historial = () => {
                                     <ul>
                                         <li >
                                             <p>
-                                                expediente : { }
-                                                <span className='mx-5'>cedula: { }</span>
+                                                expediente : <span dataUser={dataUser.cedula}></span>
+                                                <span className='mx-5'>cedula: {dataUser.cedula} </span>
                                                 <span className='mx-5'>Sexo: </span>
                                                 <span className='mx-5'>Estado Civil: { }</span>
                                             </p>

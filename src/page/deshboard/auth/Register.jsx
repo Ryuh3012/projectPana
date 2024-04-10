@@ -257,7 +257,6 @@ export const Register = () => {
         </div>
 
 
-
         <div className="flex w-full gap-3">
           <div className='w-[50%]'>
             <label htmlFor="PlaceofBirth">Lugar De Nacimiento</label>
