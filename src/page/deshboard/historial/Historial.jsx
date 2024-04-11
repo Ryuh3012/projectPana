@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Pagination, Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import { Layaut } from '../Layaut';
 import Cookies from 'universal-cookie';
@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const columns = [
     {
-        key: "codigo",
+        key: "codmateria",
         label: "codigo",
     },
 
@@ -38,7 +38,7 @@ const columns = [
 ];
 const columns2 = [
     {
-        key: "codigo",
+        key: "codmateria",
         label: "codigo",
     },
 
@@ -66,24 +66,20 @@ const columns2 = [
 ];
 const users = []
 export const Historial = () => {
-
+    const [state, setSate] = useState([])
+    const [materias, setMaterias] = useState([])
     const cookis = new Cookies()
-    const user = cookis.get('users').filter(e => e)
-    const dataUser = async () => {
-        const url = 'http://localhost:3001/users'
-        const { data } = await axios.get(url)
+    const user = cookis.get('users')
+    useEffect(async () => {
+        const { data } = await axios.get(`http://localhost:3001/users/${user.usuario}`)
+        const materia = await axios.get(`http://localhost:3001/matters`)
+        setSate(...state, data[0])
+        setMaterias(...materias, materia.data.res)
+    }, []);
+    console.log(user)
+    console.log(materias)
+    const { iduser, cedula, nombre, segundonombre, apellido, segundoapellido, direccion, telefono, email, lugardenacimiento, añodegraduacion, planteldeprocedencia } = state
 
-        if (data) {
-            const verificate = data.res.filter((e) => e.cedula == user[0].usuario)
-            const dataUser = verificate.map((e) => e)
-            const { cedula, nombre, segundonombre, apellido, segundoapellido, direccion, telefono, email, lugardenacimiento, añodegraduacion, planteldeprocedencia } = dataUser[0]
-            console.log(cedula)
-
-            return users.push(cedula, nombre, segundonombre, apellido, segundoapellido, direccion, telefono, email, lugardenacimiento, añodegraduacion, planteldeprocedencia)
-        }
-    }
-    dataUser()
-    console.log(users)
     return (
         <Layaut>
             <div className='bg-[#d9dbe0]'>
@@ -98,38 +94,36 @@ export const Historial = () => {
                                     <ul>
                                         <li >
                                             <p>
-                                                expediente : <span dataUser={dataUser.cedula}></span>
-                                                <span className='mx-5'>cedula: {dataUser.cedula} </span>
+                                                expediente : {iduser}
+                                                <span className='mx-5'>cedula: {cedula} </span>
                                                 <span className='mx-5'>Sexo: </span>
                                                 <span className='mx-5'>Estado Civil: { }</span>
                                             </p>
                                         </li>
                                         <li >
                                             <p>
-                                                Nombre : { }
-                                                <span className='mx-2'>Segundo Nombre: { }</span>
-                                                <span className='mx-2'>Apellido: </span>
-                                                <span className='mx-2'>Segundo Apellido: { }</span>
+                                                Nombre : {nombre}
+                                                <span className='mx-2'>Segundo Nombre: {segundonombre}</span>
+                                                <span className='mx-2'>Apellido: {apellido}</span>
+                                                <span className='mx-2'>Segundo Apellido: {segundoapellido}</span>
                                             </p>
                                         </li>
                                         <li >
                                             <p>
-                                                Dirección : { }
-                                                <span className='px-1'>telefono: { }</span>
-                                                <span className='px-1'>Correo; { } </span>
+                                                Dirección : {direccion}
+                                                <span className='px-1'>telefono: {telefono}</span>
+                                                <span className='px-1'>Correo: {email} </span>
                                             </p>
                                         </li>
                                         <li >
                                             <p>
-                                                Lugar de Nacimiento : { }
-                                                <span className='px-1'>Fecha De Nacimiento: { }</span>
-                                                <span className='px-1'>Discapacidad: { } </span>
+                                                Lugar de Nacimiento : {lugardenacimiento}
                                             </p>
                                         </li>
                                         <li >
                                             <p>
-                                                Año De Graduacion : { }
-                                                <span className='px-1'> Plantel De Procedencia  { }</span>
+                                                Año De Graduacion : {añodegraduacion}
+                                                <span className='px-1'> Plantel De Procedencia  {planteldeprocedencia}</span>
                                             </p>
                                         </li>
                                     </ul>
@@ -179,9 +173,9 @@ export const Historial = () => {
                                     <TableHeader columns={columns}>
                                         {(column) => <TableColumn className="text-left bg-[#1F2559] text-white  px-3" key={column.key}>{column.label}</TableColumn>}
                                     </TableHeader>
-                                    <TableBody items={users}>
-                                        {users.map(user => (
-                                            <TableRow key={user.cedula}>
+                                    <TableBody items={materias}>
+                                        {materias.map(user => (
+                                            <TableRow key={materias}>
                                                 {(columnKey) => {
                                                     return <TableCell>{getKeyValue(user, columnKey)}</TableCell>
                                                 }}
@@ -215,8 +209,8 @@ export const Historial = () => {
                                     <TableHeader columns={columns2}>
                                         {(column) => <TableColumn className="text-left bg-[#1F2559] text-white  px-3" key={column.key}>{column.label}</TableColumn>}
                                     </TableHeader>
-                                    <TableBody items={users}>
-                                        {users.map(user => (
+                                    <TableBody items={materias}>
+                                        {materias.map(user => (
                                             <TableRow key={user.cedula}>
                                                 {(columnKey) => {
                                                     return <TableCell>{getKeyValue(user, columnKey)}</TableCell>

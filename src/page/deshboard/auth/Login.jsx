@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import LayautLogin from './LayautLogin'
-import { Link, useNavigate } from 'react-router-dom'
+import { json, Link, useNavigate } from 'react-router-dom'
 import ico from "../../../assets/LOGO-DEL-IUJO-removebg-preview.png";
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -24,27 +24,20 @@ export const Login = () => {
     onSubmit: async ({ usuario, password }, { resetForm }) => {
       try {
         
-        const url = `http://localhost:3001/clients`
-        const { data } = await axios.get(url)
-        const cookis = new Cookies()
-        console.log(data)
-        if (data) {
-          const verifyDuplicate = data.res.filter((e) => e.usuario == usuario)
-          if (verifyDuplicate.length > 0 && verifyDuplicate[0]?.password == password) {
-            cookis.set('users',JSON.stringify(data.res), { path: '/'})
-            return navegation('/index')
-          }
-          else {
-            setErrorInternal('Usuario invalido')
-            console.log(data.res)
-            setTimeout(() => {
-              setErrorInternal(null)
-            }, 3000);
+        // INGLES ESPAÑOOL ..................
 
-          }
-        }
-      } catch (error) {
-        console.log(error)
+        const { data } = await axios.post('http://localhost:3001/auth', {user: usuario, password})
+        if(data.length !== 0) {
+          const cookis = new Cookies()
+          cookis.set('users', JSON.stringify(data.res[0]))
+          return navegation('/index')
+      }
+     } 
+     catch ({response: {data: {res}}}) {
+        setErrorInternal(res)
+        setTimeout(() => {
+          setErrorInternal(null)
+        }, 3000);
       }
 
     },

@@ -79,5 +79,8 @@ CREATE DATABASE proyect;
 
     INSERT INTO secciones( seccion)
         VALUES ( 'A'),( 'B'),('C');
+    
+    INSERT INTO materias (codMateria,materia,cedito)
+        VALUES('ALP-365', 'ALGORITMO Y PROGRAMACIÓN II', '15')
 
 

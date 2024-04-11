@@ -1,23 +1,20 @@
 import express from 'express'
 import cors from 'cors';
+import authRoute from './src/routes/auth.router.mjs'
 import userRoute from './src/routes/user.route.mjs'
-import usuariosRoute from './src/routes/usuariosRouter.mjs'
+import matters from './src/routes/matters.mjs'
+
 
 const app = express()
 
 //midddlewares
-try {
-    app.use(cors())
-    app.use(express.json())
-    app.use(express.urlencoded({ extended: false }))
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
-    //router
-    app.use(userRoute)
-    app.use(usuariosRoute)
-    // app.use()
+//router
+app.use(userRoute)
+app.use(authRoute)
+app.use(matters)
 
-    app.listen(3001, () => console.log('conectado al puerto 3001'))
-
-} catch (error) {
-    console.log(error)
-}
+app.listen(3001, () => console.log('conectado al puerto 3001'))

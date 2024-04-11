@@ -32,6 +32,10 @@ const Evaluaciones = () => {
                                     <ModalAsistencia isOpen={nota} close={setNota}  />
                                     <ModalCalificaciones isOpen={nota} close={setNota}  />
                                 </div>
+                                
+                            </div>
+                            <div>
+                                
                             </div>
                         </div>
                     </div>

@@ -9,6 +9,7 @@ const pool = new Pool({
     port: "5432",
 });
 
+
 export const createUser = async (req, res) => {
 
     try {

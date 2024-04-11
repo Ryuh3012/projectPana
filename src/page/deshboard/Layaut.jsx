@@ -2,10 +2,12 @@ import React from 'react'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu } from "@nextui-org/react";
 import { NavLink } from "react-router-dom";
 import ico from "../../assets/LOGO-DEL-IUJO-removebg-preview.png";
+import Cookies from 'universal-cookie';
 
 
-export const Layaut = ({children}) => {
-
+export const Layaut = ({ children }) => {
+    const cookis = new Cookies()
+    const typeDeUser = cookis.get('users')
     return (
         <div className="bg-[#d9dbe0] ">
             <Navbar className='bg-[#055387] text-white'>
@@ -34,27 +36,27 @@ export const Layaut = ({children}) => {
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                    <Dropdown>
-                    <Dropdown>
-                        <NavbarItem>
-                            <DropdownTrigger>
-                                Calificaciones 
-                            </DropdownTrigger>
-                        </NavbarItem>
-                        <DropdownMenu
-                            aria-label="ACME features"
-                            className={({ isActive }) => isActive ? 'font-bold' : 'text-black font-light'}
-                        >
-                            <DropdownItem>
-                                <NavLink
-                                    className={({ isActive }) => isActive ? 'font-bold' : 'text-black font-light'}
-                                    to='/evaluaciones'
-                                >
-                                    Evaluaciones
-                                </NavLink>
-                            </DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
+                    {typeDeUser.tipodeusuario == 'profesor' ?<Dropdown>
+                        <Dropdown>
+                            <NavbarItem>
+                                <DropdownTrigger>
+                                    Calificaciones
+                                </DropdownTrigger>
+                            </NavbarItem>
+                            <DropdownMenu
+                                aria-label="ACME features"
+                                className={({ isActive }) => isActive ? 'font-bold' : 'text-black font-light'}
+                            >
+                                <DropdownItem>
+                                    <NavLink
+                                        className={({ isActive }) => isActive ? 'font-bold' : 'text-black font-light'}
+                                        to='/evaluaciones'
+                                    >
+                                        Evaluaciones
+                                    </NavLink>
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
                         <NavbarItem>
                             <DropdownTrigger>
                                 <NavLink
@@ -77,7 +79,8 @@ export const Layaut = ({children}) => {
                                 </NavLink>
                             </DropdownItem>
                         </DropdownMenu>
-                    </Dropdown>
+                    </Dropdown>: null}
+                    
                     <NavLink className={({ isActive }) => isActive ? 'font-bold' : 'text-white font-light'}
                         to='/password'>
                         Cambiar Contraseña
@@ -92,6 +95,6 @@ export const Layaut = ({children}) => {
             </Navbar>
             {children}
         </div>
-    
-);
+
+    );
 }
