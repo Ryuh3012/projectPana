@@ -71,9 +71,11 @@ export const Historial = () => {
     const cookis = new Cookies()
     const user = cookis.get('users')
     useEffect(async () => {
-        const { data } = await axios.get(`http://localhost:3001/users/${user.usuario}`)
+        const usuarios = await axios.get(`http://localhost:3001/users/${user.usuario}`)
+        const data = usuarios.data[0]
+        console.log(data)
         const materia = await axios.get(`http://localhost:3001/matters`)
-        setSate(...state, data[0])
+        setSate(...state,data)
         setMaterias(...materias, materia.data.res)
     }, []);
     console.log(user)
