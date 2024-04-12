@@ -15,16 +15,20 @@ export const createUser = async (req, res) => {
     try {
         pool.connect()
         const {cedula,nombre, segundoNombre, apellido, segundoApellido, direccion, telefono, email, lugarDeNacimiento, añoDeGraduacion, plantelDeProcedencia, gender, password, tipoDeusuario } = req.body?.data;
-        console.log(password)
         const genderId = gender === 'masculino' ? 1 : 2
-        
-        const userid = await pool.query(
+
+        //creacion de personas y usuarios
+        const {rows} = await pool.query(
         "INSERT INTO users(cedula,nombre, segundoNombre, apellido, segundoApellido, direccion,telefono,email, lugarDeNacimiento, añoDeGraduacion, plantelDeProcedencia, genderiD ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING iduser;", 
         [cedula,nombre, segundoNombre, apellido, segundoApellido, direccion, telefono, email, lugarDeNacimiento, añoDeGraduacion, plantelDeProcedencia, genderId],
         );
-        
-        const respon = await pool.query('INSERT INTO usuarios( usuario, password, tipodeusuario,userid, genderid) values($1,$2,$3,$4,$5 )',[cedula, password, tipoDeusuario ,userid.rows[0].iduser, genderId])
-        console.log(respon);
+        const respon = await pool.query('INSERT INTO usuarios( usuario, password, tipodeusuario,userid, genderid) values($1,$2,$3,$4,$5 )',[cedula, password, tipoDeusuario ,rows[0].iduser, genderId])
+        //Creacion de notas
+        const materiaid = await pool.query('select idmateria from materias')
+        const {idmateria} = materiaid.rows[0]
+        console.log(materiaid.rows[0].id)
+        const nota = await pool.query('INSERT INTO notas(userid, genderid, materiaid)VALUES ($1,$2,$3)',[rows[0].iduser,genderId,idmateria])   
+
         return res.status(200).json({
             message: "usuario agregado exitosamente",
         });

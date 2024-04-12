@@ -70,6 +70,7 @@ export const Historial = () => {
     const [materias, setMaterias] = useState([])
     const cookis = new Cookies()
     const user = cookis.get('users')
+
     useEffect(async () => {
         const usuarios = await axios.get(`http://localhost:3001/users/${user.usuario}`)
         const data = usuarios.data[0]
@@ -78,6 +79,7 @@ export const Historial = () => {
         setSate(...state,data)
         setMaterias(...materias, materia.data.res)
     }, []);
+    
     console.log(user)
     console.log(materias)
     const { iduser, cedula, nombre, segundonombre, apellido, segundoapellido, direccion, telefono, email, lugardenacimiento, añodegraduacion, planteldeprocedencia } = state

@@ -10,6 +10,8 @@ const initialValues = { titulo: ' ', porcentaje: '', estatus: '', nota: '', fech
 
 const Evaluaciones = () => {
 
+    const [state, setstate] = useState(null);
+
     const validate = (values) => {
         let errors = {}
         if (!values.titulo) errors.titulo = 'debes poner un titulo'
@@ -26,13 +28,20 @@ const Evaluaciones = () => {
     const formik = useFormik({
 
         initialValues,
-        onSubmit: async (value) => {
-            await axios.post('http://localhost:3001/evaluaciones', value)
+        onSubmit: async (value ,{resetForm }) => {
+            const {titulo, porcentaje, estatus, nota, fechadeinicio, fechafinal} = value
+            await axios.post('http://localhost:3001/eval', {titulo, porcentaje, estatus, nota, fechadeinicio, fechafinal})
+            .then(res => {
+                setstate(res.data.mesenger)
+                setTimeout(() => {
+                    setstate(null)
+                }, 3000);
+            })
+            .catch(err =>console.log(err))
+
+            return resetForm()
         },
         validate,
-
-
-
     })
 
     return (
@@ -46,7 +55,7 @@ const Evaluaciones = () => {
                                 <div className="flex flex-col w-full gap-2">
                                     <select
                                         className='w-full border-[1px] border-[#C4CEDC] px-5 py-2 rounded-[5px]'
-                                    >
+                                        >
                                     </select>
                                 </div>
                                 <div className="flex flex-col w-full gap-2">
@@ -62,7 +71,8 @@ const Evaluaciones = () => {
 
                             </div>
                             <div className='flex justify-center'>
-                                <form className='w-[55%]'>
+                                <form onSubmit={formik.handleSubmit} className='w-[55%]'>
+                                        {state && (<p className="bg-[#22c55e] pl-4 text-white rounded-[3px] py-1">{state}</p>)}
                                     {formik.touched.titulo && formik.errors.titulo ? <p className="bg-red-100 border border-red-400 text-red-700 px-1 rounded relative py-1"  >{formik.errors.titulo}</p> : null}
                                     {formik.touched.porcentaje && formik.errors.porcentaje ? <p className="bg-red-100 border border-red-400 text-red-700 px-1 rounded relative py-1"  >{formik.errors.porcentaje}</p> : null}
                                     {formik.touched.nota && formik.errors.nota ? <p className="bg-red-100 border border-red-400 text-red-700 px-1 rounded relative py-1"  >{formik.errors.nota}</p> : null}
@@ -82,9 +92,7 @@ const Evaluaciones = () => {
                                         <div className='flex flex-col w-full gap-2'>
                                             <label htmlFor="">Porcentaje</label>
                                             <input type="number"
-                                                {...formik.getFieldProps('pocertaje')}
-                                                max='100'
-                                                min='0.5'
+                                                {...formik.getFieldProps('porcentaje')}
                                                 className="w-full border-[1px] border-[#C4CEDC] px-5 py-2 rounded-[5px]"
                                             />
 
@@ -93,8 +101,6 @@ const Evaluaciones = () => {
                                             <label htmlFor="">Nota</label>
                                             <input type="number"
                                                 {...formik.getFieldProps('nota')}
-                                                max='100'
-                                                min='0.5'
                                                 className="w-full border-[1px] border-[#C4CEDC] px-5 py-2 rounded-[5px]"
                                             />
                                         </div>

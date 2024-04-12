@@ -3,6 +3,7 @@ import cors from 'cors';
 import authRoute from './src/routes/auth.router.mjs'
 import userRoute from './src/routes/user.route.mjs'
 import matters from './src/routes/matters.mjs'
+import evaluation from './src/routes/evaluations.router.mjs'
 
 
 const app = express()
@@ -16,5 +17,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(userRoute)
 app.use(authRoute)
 app.use(matters)
+app.use(evaluation)
 
 app.listen(3001, () => console.log('conectado al puerto 3001'))

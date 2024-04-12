@@ -31,10 +31,9 @@ CREATE DATABASE proyect;
         genderid int not null
     );
 
-
     CREATE TABLE notas (
         idNota SERIAL PRIMARY KEY not null,
-        nota VARCHAR(45) NOT NULL,
+        nota VARCHAR(45),
         userId INT NOT NULL,
         genderId INT NOT NULL,
         materiaId INT NOT NULL
@@ -67,15 +66,15 @@ CREATE DATABASE proyect;
         titulo VARCHAR(100) NOT NULL,
         porcentaje VARCHAR(100) NOT NULL,
         estatus VARCHAR(100) NOT NULL,
-        nota VARCHAR(100) NOT NULL,
+        nota VARCHAR(100),
         fechaDeInicio DATE NOT NULL,
-        fechaFinal DATE NOT NULL
-        materiaId int not null
-        notasUsuarioId int not null
-        notasUsers int not null
+        fechaFinal DATE NOT NULL,
+        materiaId int not null,
+        notaid int not null,
+        notasUsers int not null,
         notaMateriaId int not null
         
-    )
+    );
 
     INSERT INTO genders( gender)
         VALUES ( 'Masculino'),( 'Femenino');
